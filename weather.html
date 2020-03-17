@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+<head>
+    <title>This is first angular js</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <style type="text/css">
+        .card{
+    width: 211px;
+    border-radius: 5%;
+    background: #051258b0;
+    color: #fff;
+    margin-left:3%;
+  }
+  .card:hover { transform: scale(1.1); }
+  .card-img-top{
+    width:44%
+  }
+  
+  .headingh1{
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px #28346c;
+  }
+  
+  .max{
+    color: rgb(166, 226, 236);
+    font-weight: bold;
+  }
+  .min{
+    color:rgb(104, 155, 241);
+    font-weight: bold;
+  }
+  .day{
+    color: rgb(234, 255, 124);
+  }
+  .humid{
+    color:rgb(44, 112, 105);
+  }
+  .topTemp{
+    font-size:26px;
+    color:white;
+    font-weight: bold;
+  }
+    </style>
+</head>
+<body>
+    <div class="container" ng-controller="test">
+         <div>
+                <center>
+                    <h1 class="text-primary">Weather App</h1>
+                </center>
+                <h2 class="text-primary">City:Mumbai</h2>
+         </div>
+          <div class="row" id="weather">
+           <!-- {{mytest}} -->
+            </div>
+         <hr/>
+            <button type="button" class="btn btn-primary" ng-click="getWeather()" ng-disabled="zakas">Get Weather</button>
+    </div>
+
+
+    <script type="text/javascript">
+
+       var app = angular.module('myApp', []);
+    app.controller('test',  function($scope,$http){
+       $scope.zakas = false;
+      
+        $scope.getWeather = function()
+        {
+            var checkapi =  "http://api.openweathermap.org/data/2.5/forecast/daily?q=Mumbai&mode=json&units=metric&cnt=5&appid=fbf712a5a83d7305c3cda4ca8fe7ef29";
+            $http.get(checkapi).then(function(data){
+        //        console.log(data.data);
+             // $scope.mytest = data.data;
+             //  for(i=0;i<data.data.list.length;i++){
+             //    console.log(i);
+             //    }
+              for(i=0;i<data.data.list.length;i++){
+                $('#weather').append(
+                    "<div class='card col-md-2'><div class='row'>"+
+                    "<img class='card-img-top' src='https://openweathermap.org/img/w/"+data.data.list[i].weather[0].icon+".png' alt='weather'/>"+
+                    "<span class='topTemp'>"+data.data.list[i].temp.day+"°C</span></div><div class='card-body'>"+
+                    "<span class='max'>"+data.data.list[i].temp.max+"</span>/<span class='min'>"+data.data.list[i].temp.min+"°C</span><h4 class='card-title'>"+data.data.list[i].weather[0].main+"</h4><p class='card-text'>"+
+                    "<p class='day'>"+Date(data.data.list[i].dt)+"</p><p>Humidity:"+data.data.list[i].humidity+"</p></p></div></div>"
+                )
+            }
+            $scope.zakas = true;
+            });
+        }
+    });
+    </script>
+</body>
+</html>
